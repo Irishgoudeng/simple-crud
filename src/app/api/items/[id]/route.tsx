@@ -40,3 +40,20 @@ export async function PUT(
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
+
+// Add the DELETE function here
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const deletedItem = await prisma.item.delete({
+      where: { id: Number(params.id) },
+    });
+
+    return NextResponse.json(deletedItem);
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}
